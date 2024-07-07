@@ -29,7 +29,7 @@ export PYTHONPATH="${WORK}/build:${PWD}:${PWD}/pyphare"
 
 cd "$WORK"
 
-# write script it missing
+# write script if missing
 [ ! -f "build.sh" ] && cat >build.sh <<EOL
 mkdir -p build
 cd build
