@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Python ${{ matrix.python-version }}
+    name: Linting
     runs-on: ubuntu-latest
 
     strategy:
