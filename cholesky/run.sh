@@ -9,7 +9,7 @@
 #SBATCH --partition=cpu_dist
 #SBATCH --account=phare
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=nicolas.aunai@lpp.polytechnique.fr
+#SBATCH --mail-user=your@email.lol
 ## END SBATCH directives
 
 ## load modules
