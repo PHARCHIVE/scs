@@ -4,15 +4,12 @@
 set -ex
 set -o pipefail
 shopt -s expand_aliases
-
-CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 alias glog="git log --pretty=oneline --abbrev-commit"
 alias cls="clear; printf '\033[3J'"
 
-[ ! -f "${CWD}/mod.sh" ] && echo "error Missing mod.sh file" && exit 1
-# shellcheck disable=SC1091
-. "${CWD}/mod.sh"
+module load cray-python/3.11.5 gcc-native/12.1 cray-hdf5-parallel
 
 cd "$HOME"
 [ ! -d "PHARE" ] && git clone https://github.com/PHAREHUB/PHARE --recursive
@@ -30,6 +27,7 @@ export PYTHONPATH="${WORKDIR}/build:${PWD}:${PWD}/pyphare"
 cd "$WORKDIR"
 
 # write script if missing
+# change CMAKE_BUILD_TYPE to RelWithDebInfo for perf
 [ ! -f "build.sh" ] && cat >build.sh <<EOL
 mkdir -p build
 cd build

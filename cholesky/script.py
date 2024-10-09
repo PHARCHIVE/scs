@@ -2,27 +2,27 @@
 
 import pyphare.pharein as ph
 from pyphare.simulator.simulator import Simulator, startMPI
-
+import sys
 import numpy as np
-
+import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 mpl.use("Agg")
-
 from pyphare.cpp import cpp_lib
 
 cpp = cpp_lib()
-startMPI()
+if not ph.PHARE_EXE:
+    startMPI()
 
-timestamps = np.arange(10, 160, 10)
 
 def config():
+    start_time = 466.42
     L = 0.5
     sim = ph.Simulation(
-        time_step=0.005,
-        final_time=150.0,
+        time_step=0.010,
+        final_time=500.0,
         # boundary_types="periodic",
-        cells=(800, 800),
+        cells=(8000, 4000),
         dl=(0.40, 0.40),
         refinement="tagging",
         max_nbr_levels=3,
@@ -33,19 +33,13 @@ def config():
         resistivity=0.001,
         diag_options={
             "format": "phareh5",
-            "options": {"dir": "diags/harris_rebal", "mode": "overwrite"},
+            "options": {"dir": "run055ai", "mode": "overwrite"},
         },
         restart_options={
             "dir": "checkpoints",
             "mode": "overwrite",
-            "timestamps": timestamps,
-            # "restart_time": 60.0,
-        },
-        advanced={
-            "integrator/rebalance_coarsest": 1,
-            "integrator/rebalance_coarsest_every": 5000,
-            "integrator/rebalance_coarsest_on_init": 0,
-            "integrator/flexible_load_tolerance": 0.05,
+            "elapsed_timestamps": [36000, 79000],
+            "restart_time": start_time,
         },
     )
 
@@ -145,11 +139,12 @@ def config():
 
     ph.ElectronModel(closure="isothermal", Te=0.0)
 
-    #sim = ph.global_vars.sim
-    #dt = 100.0 * sim.time_step
-    #start_time = 0.0
-    #nt = (sim.final_time - start_time) / dt + 1
-    #timestamps = start_time + dt * np.arange(nt)
+    ph.LoadBalancer(active=True, mode="nppc", tol=0.05, every=1000)
+
+    sim = ph.global_vars.sim
+    dt = 100.0 * sim.time_step
+    nt = (sim.final_time - start_time) / dt
+    timestamps = start_time + dt * np.arange(nt)
     print(timestamps)
 
     for quantity in ["E", "B"]:
@@ -166,12 +161,15 @@ def config():
             compute_timestamps=timestamps,
         )
 
+    ph.InfoDiagnostics(quantity="particle_count", write_timestamps=timestamps)
     return sim
 
 
 def main():
-    Simulator(config()).run()
+    Simulator(config(), print_one_line=False).run()
 
 
 if __name__ == "__main__":
     main()
+elif ph.PHARE_EXE:
+    config()
