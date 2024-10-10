@@ -21,7 +21,6 @@
 
 set -exu
 set -o pipefail
-CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 module load cray-python/3.11.5 gcc-native/12.1 cray-hdf5-parallel
 
 cd "$HOME/PHARE"

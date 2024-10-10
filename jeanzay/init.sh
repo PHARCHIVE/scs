@@ -5,14 +5,10 @@ set -ex
 set -o pipefail
 shopt -s expand_aliases
 
-CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
-
 alias glog="git log --pretty=oneline --abbrev-commit"
 alias cls="clear; printf '\033[3J'"
 
-[ ! -f "${CWD}/mod.sh" ] && echo "error Missing mod.sh file" && exit 1
-# shellcheck disable=SC1091
-. "${CWD}/mod.sh"
+module load gcc/12.2.0 cmake/3.21.3 python/3.11.5 hdf5/1.12.0-mpi openmpi/4.1.5
 
 cd "$HOME"
 [ ! -d "PHARE" ] && git clone https://github.com/PHAREHUB/PHARE --recursive
