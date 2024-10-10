@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-set -ex
-set -o pipefail
-
-CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
-
-# Adastra SLURM info
-# https://dci.dci-gitlab.cines.fr/webextranet/user_support/index.html#batch-scripts
-
 ## BEGIN SBATCH directives
 #SBATCH --job-name=run051c
 #SBATCH --output=run051c.txt
@@ -24,8 +16,12 @@ CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
 ##SBATCH --partition=genoa
 ## END SBATCH directives
 
-# shellcheck disable=SC1091
-. "${CWD}/mod.sh"
+# Adastra SLURM info
+# https://dci.dci-gitlab.cines.fr/webextranet/user_support/index.html#batch-scripts
+
+set -exu
+set -o pipefail
+module load cray-python/3.11.5 gcc-native/12.1 cray-hdf5-parallel
 
 cd "$HOME/PHARE"
 [ ! -f ".venv/bin/activate" ] && echo "error: venv not found" && exit 1
