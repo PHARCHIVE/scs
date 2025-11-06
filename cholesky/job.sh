@@ -20,7 +20,7 @@
 module load cmake gcc/13.2.0 openmpi hdf5
 
 cd $HOME/PHARE
-. .venv/bin/activate
+. .venv/bin/activate # shellcheck disable=SC1091
 export PYTHONPATH="${PWD}/build:${PWD}:${PWD}/pyphare"
 cd ..
 

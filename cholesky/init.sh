@@ -8,6 +8,10 @@ CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
 
 module load cmake gcc/13.2.0 openmpi hdf5
 
+# needed during pip install for some reason
+export CC=/mnt/beegfs/softs/opt/core/gcc/13.2.0/bin/gcc
+export CXX=/mnt/beegfs/softs/opt/core/gcc/13.2.0/bin/g++
+
 cd "$HOME"
 [ ! -d "PHARE" ] && git clone https://github.com/PHAREHUB/PHARE --recursive
 
