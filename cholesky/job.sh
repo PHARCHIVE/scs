@@ -17,12 +17,15 @@
 #SBATCH --mail-user=your@lpp.polytechnique.fr
 ## END SBATCH directives
 
+set -ex
+set -o pipefail
+
 module load cmake gcc/13.2.0 openmpi hdf5
 
-cd $HOME/PHARE
-. .venv/bin/activate # shellcheck disable=SC1091
+cd "$HOME/PHARE"
+# shellcheck disable=SC1091
+. .venv/bin/activate
 export PYTHONPATH="${PWD}/build:${PWD}:${PWD}/pyphare"
-cd ..
 
 PRELOAD="/mnt/beegfs/softs/opt/core/gcc/13.2.0/lib64/libstdc++.so"
 export LD_PRELOAD="${PRELOAD}"

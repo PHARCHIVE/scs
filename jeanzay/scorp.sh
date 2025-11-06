@@ -1,4 +1,4 @@
-scorp.sh#!/usr/bin/env bash
+#!/usr/bin/env bash
 ## Script to configure and build phare with one thread
 
 set -ex
@@ -26,7 +26,7 @@ cd PHARE
 
 # shellcheck disable=SC1091
 . .venv/bin/activate
-[ ! -f ".pip_installed" ] && python3 -m pip install -U -r requirements.txt && echo 1 > .pip_installed
+[ ! -f ".pip_installed" ] && python3 -m pip install -U -r requirements.txt && echo 1 >.pip_installed
 
 export PYTHONPATH="${WORK}/build:${PWD}:${PWD}/pyphare"
 

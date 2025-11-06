@@ -3,7 +3,7 @@ set -eu
 
 RANK="${SLURM_PROCID}"
 
-cd $HOME/PHARE
+cd "$HOME/PHARE"
 . .venv/bin/activate # pip installed stuff
 export PYTHONPATH="${WORKDIR}/build:${PWD}:${PWD}/pyphare"
 
