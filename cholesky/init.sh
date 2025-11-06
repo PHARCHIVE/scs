@@ -3,12 +3,14 @@
 
 set -ex
 set -o pipefail
-shopt -s expand_aliases
 
-alias glog="git log --pretty=oneline --abbrev-commit"
-alias cls="clear; printf '\033[3J'"
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
 
-module load cmake gcc/10.2.0 openmpi hdf5
+module load cmake gcc/13.2.0 openmpi hdf5
+
+# needed during pip install for some reason
+export CC=/mnt/beegfs/softs/opt/core/gcc/13.2.0/bin/gcc
+export CXX=/mnt/beegfs/softs/opt/core/gcc/13.2.0/bin/g++
 
 cd "$HOME"
 [ ! -d "PHARE" ] && git clone https://github.com/PHAREHUB/PHARE --recursive
@@ -21,9 +23,7 @@ cd PHARE
 . .venv/bin/activate
 [ ! -f ".pip_installed" ] && python3 -m pip install -r requirements.txt && echo 1 >.pip_installed
 
-export PYTHONPATH="${WORKDIR}/build:${PWD}:${PWD}/pyphare"
-
-cd "$WORKDIR"
+export PYTHONPATH="${PWD}/build:${PWD}:${PWD}/pyphare"
 
 # write script if missing - phare_configurator crashes with some ucx assertion
 [ ! -f "build.sh" ] && cat >build.sh <<EOL

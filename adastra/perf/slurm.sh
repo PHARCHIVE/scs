@@ -19,7 +19,7 @@
 
 module load cray-python/3.11.5 gcc-native/12.1 cray-hdf5-parallel
 
-cd $HOME/PHARE
+cd "$HOME/PHARE"
 . .venv/bin/activate
 export PYTHONPATH="${WORKDIR}/build:${PWD}:${PWD}/pyphare"
 

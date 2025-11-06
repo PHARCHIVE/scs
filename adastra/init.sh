@@ -3,10 +3,12 @@
 
 set -ex
 set -o pipefail
-shopt -s expand_aliases
+# shopt -s expand_aliases
 
-alias glog="git log --pretty=oneline --abbrev-commit"
-alias cls="clear; printf '\033[3J'"
+# alias glog="git log --pretty=oneline --abbrev-commit"
+# alias cls="clear; printf '\033[3J'"
+
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
 
 module load cray-python/3.11.5 gcc-native/12.1 cray-hdf5-parallel
 
