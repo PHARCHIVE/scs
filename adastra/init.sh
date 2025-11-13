@@ -3,10 +3,6 @@
 
 set -ex
 set -o pipefail
-# shopt -s expand_aliases
-
-# alias glog="git log --pretty=oneline --abbrev-commit"
-# alias cls="clear; printf '\033[3J'"
 
 CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" && cd "$CWD"
 
