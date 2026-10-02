@@ -10,7 +10,7 @@
 #SBATCH --partition=cpu_p1
 #SBATCH --account=wrb@cpu
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=philip.deegan@lpp.polytechnique.fr
+#SBATCH --mail-user=you@email.lol
 ## END SBATCH directives
 
 # SLURM INFO

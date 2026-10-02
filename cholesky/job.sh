@@ -5,28 +5,32 @@
 # https://docs.idcs.mesocentre.ip-paris.fr/cholesky/slurm_queues_description/
 
 ## BEGIN SBATCH directives
-#SBATCH --job-name=run052a
-#SBATCH --output=run052a.txt
+#SBATCH --job-name=0000
+#SBATCH --output=0000.txt
 #
-#SBATCH --ntasks=40
-#SBATCH --nodes=1
-#SBATCH --time=10:00:00
-#SBATCH --partition=cpu_shared
+#SBATCH --ntasks=400
+#SBATCH --nodes=10
+#SBATCH --exclusive
+#SBATCH --time=24:00:00
+#SBATCH --partition=cpu_dist
 #SBATCH --account=phare
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=your@lpp.polytechnique.fr
+#SBATCH --mail-user=you@email.lol
 ## END SBATCH directives
 
+## load modules
 set -ex
-set -o pipefail
 
-module load cmake gcc/13.2.0 openmpi hdf5
+module load cmake gcc/13.2.0 openmpi hdf5 git/2.31.1
 
-cd "$HOME/PHARE"
+WORKDIR="/mnt/beegfs/workdir/$(whoami)" # not in env sometimes
+cd "$WORKDIR/PHARE"
 # shellcheck disable=SC1091
 . .venv/bin/activate
 export PYTHONPATH="${PWD}/build:${PWD}:${PWD}/pyphare"
 
 PRELOAD="/mnt/beegfs/softs/opt/core/gcc/13.2.0/lib64/libstdc++.so"
 export LD_PRELOAD="${PRELOAD}"
-mpirun -n "$SLURM_NTASKS" python3 -O harris.py
+
+cd "$WORKDIR/tests/0000"
+mpirun -n "$SLURM_NTASKS" python3 -O job.py
